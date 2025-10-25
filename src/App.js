@@ -1,24 +1,67 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './context/AuthContext';
+
+import Header from './components/header';
+import Footer from './components/Footer'; 
+
+
+import Home from './pages/Home';
+import Catalogo from './pages/Catalogo';
+import Compatibilidad from './pages/Compatibilidad';
+import Carrito from './pages/Carrito';
+import Contacto from './pages/Contacto';
+import Login from './pages/Login';
+import Registro from './pages/Registro';
+import Perfil from './pages/Perfil';
+import './App.css'; 
+
+
+const ProtectedRoute = ({ children }) => {
+  const { usuarioLogueado } = useAuth();
+  if (!usuarioLogueado) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+};
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  );
+}
+
+function AppContent() {
+  return (
+    <>
+      <Header />
+      <Routes>
+        {/* Rutas Públicas */}
+        <Route path="/" element={<Home />} />
+        <Route path="/catalogo" element={<Catalogo />} />
+        <Route path="/compatibilidad" element={<Compatibilidad />} />
+        <Route path="/carrito" element={<Carrito />} />
+        <Route path="/contacto" element={<Contacto />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/registro" element={<Registro />} />
+
+        {/* Ruta Protegida */}
+        <Route 
+          path="/perfil" 
+          element={
+            <ProtectedRoute>
+              <Perfil />
+            </ProtectedRoute>
+          } 
+        />
+        
+        {/* Redirigir cualquier otra ruta a Home */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+      <Footer />
+    </>
   );
 }
 
