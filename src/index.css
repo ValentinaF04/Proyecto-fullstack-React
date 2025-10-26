@@ -261,3 +261,24 @@ footer .bi {
     font-weight: bold;
     font-size: 1.2rem;
 }
+
+/* MODAL PERSONALIZADO (VENTANITA)*/
+
+.custom-dark-modal .modal-content {
+    background-color: white; 
+    color: black;          
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.custom-dark-modal .modal-header {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.custom-dark-modal .modal-footer {
+    border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Hace que el botón 'X' de cerrar sea blanco */
+.custom-dark-modal .btn-close {
+    filter: invert(1) grayscale(100) brightness(200%);
+}

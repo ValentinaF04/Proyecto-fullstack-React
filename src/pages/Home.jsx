@@ -1,26 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { productos } from '../data/productos'; 
-
-// Componente para la Card de Producto (reutilizable)
-const ProductCard = ({ product }) => {
-    const formattedPrice = `$${product.price.toLocaleString('es-CL')}`;
-    return (
-        <div className="col-lg-4 col-md-6 col-12">
-            <div className="card product-card h-100">
-                <img src={product.imageUrl} className="card-img-top" alt={product.name} />
-                <div className="card-body d-flex flex-column">
-                    <h5 className="card-title">{product.name}</h5>
-                    <p className="card-text text-body-secondary">{product.description}</p>
-                    <div className="mt-auto">
-                        <span className="badge bg-success">-{product.discount}%</span>
-                        <p className="product-price my-2">{formattedPrice}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-};
-
+import ProductCard from '../components/ProductCard';
 
 function Home() {
     const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -64,7 +44,7 @@ function Home() {
                     <h2 className="section-title mb-4">Ofertas Imperdibles</h2>
                     <div id="featured-product-list" className="row g-4">
                         {featuredProducts.map(product => (
-                            <ProductCard key={product.id} product={product} />
+                            <ProductCard key={product.id} producto={product} />
                         ))}
                     </div>
                 </div>
