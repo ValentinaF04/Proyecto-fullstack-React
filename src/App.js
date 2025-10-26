@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 
-import Header from './components/header';
+import Header from './components/Header';
 import Footer from './components/Footer'; 
 
 
@@ -14,7 +14,6 @@ import Contacto from './pages/Contacto';
 import Login from './pages/Login';
 import Registro from './pages/Registro';
 import Perfil from './pages/Perfil';
-import './App.css'; 
 
 
 const ProtectedRoute = ({ children }) => {
