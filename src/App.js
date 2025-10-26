@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 
-import Header from './components/header';
+import Header from './components/Header';
 import Footer from './components/Footer'; 
 
 
