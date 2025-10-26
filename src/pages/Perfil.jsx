@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { useAuth } from '../context/AuthContext';
 function Perfil() {
     const { usuarioLogueado, updateProfile, deleteAccount } = useAuth();
     const navigate = useNavigate();
