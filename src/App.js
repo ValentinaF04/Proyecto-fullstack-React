@@ -14,6 +14,7 @@ import Contacto from './pages/Contacto';
 import Login from './pages/Login';
 import Registro from './pages/Registro';
 import Perfil from './pages/Perfil';
+import { CartProvider } from './context/CartContext';
 
 
 const ProtectedRoute = ({ children }) => {
@@ -27,7 +28,9 @@ const ProtectedRoute = ({ children }) => {
 function App() {
   return (
     <AuthProvider>
-      <AppContent />
+      <CartProvider>
+        <AppContent />
+      </CartProvider>
     </AuthProvider>
   );
 }

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 
 function Carrito() {
-    const { carrito, eliminarDelCarrito, totalPrecio, totalItems } = useCart();
+    const { carrito, eliminarDelCarrito, totalPrecio, totalItems, aumentarCantidad, disminuirCantidad } = useCart();
 
     const formatearPrecio = (precio) => {
         if (typeof precio !== 'number' || isNaN(precio)) {
@@ -20,7 +20,7 @@ function Carrito() {
                     <h1 className="section-title mb-4">Carrito de Compras</h1>
                     <i className="bi bi-cart-x fs-1 text-muted mb-3"></i>
                     <p className="fs-4">Tu carrito está vacío.</p>
-                    <p className="text-muted">¿No sabes qué comprar? ¡Miles de productos te esperan!</p>
+                    <p>¿No sabes qué comprar? ¡Miles de productos te esperan!</p>
                     <Link to="/catalogo" className="btn btn-primary btn-lg mt-3">
                         Ir al Catálogo
                     </Link>
@@ -65,10 +65,34 @@ function Carrito() {
                                                 </div>
                                             </td>
                                             <td>{formatearPrecio(producto.price)}</td>
+
                                             <td>
-                                                <input type="number" className="form-control form-control-sm" defaultValue="1" style={{ width: '70px' }} readOnly />
+                                                <div className="input-group" style={{ width: '130px' }}>
+                                                    <button 
+                                                        className="btn btn-outline-light btn-sm" 
+                                                        type="button" 
+                                                        onClick={() => disminuirCantidad(producto.id)}
+                                                    >
+                                                        -
+                                                    </button>
+                                                    <input 
+                                                        type="text" 
+                                                        className="form-control form-control-sm text-center" 
+                                                        value={producto.quantity} 
+                                                        readOnly 
+                                                        aria-label="Cantidad"
+                                                    />
+                                                    <button 
+                                                        className="btn btn-outline-light btn-sm" 
+                                                        type="button" 
+                                                        onClick={() => aumentarCantidad(producto.id)}
+                                                    >
+                                                        +
+                                                    </button>
+                                                </div>
                                             </td>
-                                            <td>{formatearPrecio(producto.price * 1)}</td>
+
+                                            <td>{formatearPrecio(producto.price * producto.quantity)}</td>
                                             <td>
                                                 <button
                                                     className="btn btn-danger btn-sm"
