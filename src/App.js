@@ -14,7 +14,6 @@ import Contacto from './pages/Contacto';
 import Login from './pages/Login';
 import Registro from './pages/Registro';
 import Perfil from './pages/Perfil';
-import './App.css'; 
 
 
 const ProtectedRoute = ({ children }) => {
