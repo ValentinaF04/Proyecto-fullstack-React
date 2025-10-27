@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext'; 
 
-
 function Registro() {
     const [username, setUsername] = useState('');
     const [correo, setCorreo] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [error, setError] = useState('');
+    const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
@@ -16,10 +15,10 @@ function Registro() {
 
     const handleSubmit = (evento) => {
         evento.preventDefault();
-        setError('');
+        setError(null);
 
         if (password !== confirmPassword) {
-            setError('<div class="alert alert-danger">Las contraseñas no coinciden.</div>');
+            setError({ message: 'Las contraseñas no coinciden.', type: 'danger' });
             return;
         }
 
@@ -27,12 +26,13 @@ function Registro() {
         const resultado = register(username, correo, password);
 
         if (resultado.success) {
-            setError('<div class="alert alert-success">¡Registro exitoso! Redireccionando...</div>');
+            setError({ message: '¡Registro exitoso! Redireccionando...', type: 'success' });
             setTimeout(() => {
                 navigate('/login');
             }, 2000);
+            
         } else {
-            setError(`<div class="alert alert-danger">${resultado.message}</div>`);
+            setError({ message: resultado.message, type: 'danger' });
             setLoading(false);
         }
     };
@@ -64,7 +64,11 @@ function Registro() {
                                 {loading ? 'Registrando...' : 'Registrarse'}
                             </button>
                         </form>
-                        <div id="divError" className="mt-3" dangerouslySetInnerHTML={{ __html: error }} />
+                        {error && (
+                            <div id="divError" className={`alert alert-${error.type} mt-3`}>
+                                {error.message}
+                            </div>
+                        )}
                         <p className="text-center mt-3 text-white-50">
                             ¿Ya tienes una cuenta? <Link to="/login" className="footer-link">Inicia Sesión</Link>
                         </p>
