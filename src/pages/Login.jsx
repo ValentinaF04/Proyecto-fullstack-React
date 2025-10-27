@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-
 function Login() {
     const [correo, setCorreo] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+    const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
@@ -14,18 +13,19 @@ function Login() {
 
     const handleSubmit = (evento) => {
         evento.preventDefault();
-        setError('');
+        setError(null);
         setLoading(true);
 
         const resultado = login(correo, password);
 
         if (resultado.success) {
-            setError('<div class="alert alert-success">¡Inicio de sesión exitoso! Redireccionando a tu perfil...</div>');
+            setError({ message: '¡Inicio de sesión exitoso! Redireccionando a tu perfil...', type: 'success' });
             setTimeout(() => {
                 navigate('/perfil');
             }, 2000);
+            
         } else {
-            setError(`<div class="alert alert-danger">${resultado.message}</div>`);
+            setError({ message: resultado.message, type: 'danger' });
             setLoading(false);
         }
     };
@@ -63,7 +63,11 @@ function Login() {
                                 {loading ? 'Ingresando...' : 'Ingresar'}
                             </button>
                         </form>
-                        <div id="divError" className="mt-3" dangerouslySetInnerHTML={{ __html: error }} />
+                        {error && (
+                            <div id="divError" className={`alert alert-${error.type} mt-3`}>
+                                {error.message}
+                            </div>
+                        )}
                         <p className="text-center mt-3 text-white-50">
                             ¿No tienes una cuenta? <Link to="/registro" className="footer-link">Regístrate</Link>
                         </p>

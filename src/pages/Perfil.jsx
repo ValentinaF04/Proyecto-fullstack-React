@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+
 function Perfil() {
     const { usuarioLogueado, updateProfile, deleteAccount } = useAuth();
     const navigate = useNavigate();
 
     const [isEditing, setIsEditing] = useState(false);
     const [editUsername, setEditUsername] = useState('');
-    const [mensaje, setMensaje] = useState('');
+    const [mensaje, setMensaje] = useState(null);
 
     // Cargar datos del usuario en el formulario de edición cuando se monta
     useEffect(() => {
@@ -29,8 +30,8 @@ function Perfil() {
         evento.preventDefault();
         updateProfile(editUsername);
         setIsEditing(false);
-        setMensaje('<div class="alert alert-success">¡Perfil actualizado!</div>');
-        setTimeout(() => setMensaje(''), 3000); // Borra el mensaje después de 3 seg
+        setMensaje({ message: '¡Perfil actualizado!', type: 'success' });
+        setTimeout(() => setMensaje(null), 3000); // Borra el mensaje después de 3 seg
     };
 
     const eliminarCuenta = () => {
@@ -84,7 +85,11 @@ function Perfil() {
                     </div>
 
                     {/* Mensajes de feedback */}
-                    <div id="divMensaje" className="mt-3" dangerouslySetInnerHTML={{ __html: mensaje }} />
+                    {mensaje && (
+                        <div id="divMensaje" className={`alert alert-${mensaje.type} mt-3`}>
+                            {mensaje.message}
+                        </div>
+                    )}
                 </div>
             </div>
         </main>
